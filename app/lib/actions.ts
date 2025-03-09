@@ -35,6 +35,7 @@ export type State = {
 };
 
 export async function createInvoice(prevState: State, formData: FormData) {
+
   // Validate form using Zod
   const validatedFields = CreateInvoice.safeParse({
     customerId: formData.get('customerId'),
@@ -62,6 +63,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
       VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
     `;
   } catch (error) {
+    console.log('Erro', error);
     // If a database error occurs, return a more specific error.
     return {
       message: 'Database Error: Failed to Create Invoice.',
@@ -76,6 +78,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 
 export async function updateInvoice(id: string, prevState: State, formData: FormData) {
+
   const validatedFields = UpdateInvoice.safeParse({
     customerId: formData.get('customerId'),
     amount: formData.get('amount'),
